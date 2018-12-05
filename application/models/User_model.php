@@ -8,21 +8,11 @@ class User_Model extends CI_Model
 
     protected $user_app = 'users_app';
 
-    /**
-     * Use Registration
-     * @param: {array} User Data
-     */
     public function insert_user(array $data) {
         $this->db->insert($this->user_app, $data);
         return $this->db->insert_id();
     }
 
-    /**
-     * User Login
-     * ----------------------------------
-     * @param: username or email address
-     * @param: password
-     */
     public function user_login($username, $password)
     {
         $this->db->where('email', $username);
@@ -32,7 +22,7 @@ class User_Model extends CI_Model
         if( $q->num_rows() ) 
         {
             $user_pass = $q->row('password');
-            if(sha1($password) === $user_pass) {
+            if(sha256($password) === $user_pass) {
                 return $q->row();
             }
             return FALSE;
